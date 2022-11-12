@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Online Library</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="https://unpkg.com/multiple-select@1.5.2/dist/themes/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5587893eae.js" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+    </style>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #452066; opacity: 1;">
+        <a class="navbar-brand mb-1 nav-heading" href="#" style="font-size: 28px;">
+            <span style="color:#d45248;font-family:Montserrat;font-weight: bold;"> <div class="fa fa-globe fa-45"></div>nline  <span
+                    style="color:#fff ;">Library <i class="fa fa-book"></i></span></span>
+        </a>
+
+        <button class="navbar-toggler abc " type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+
+
+
+        </div>
+    </nav>
+
+
+
+    <div class="container pt-4 mt-5 my-3">
+        <h1 class="text-center display-5 font-weight-bold welcome-text">Welcome To <i class="fa fa-globe fa-45"></i>nline Library</h1>
+        <hr>
+
+        <p style="font-size:30px;" class="text-center" id="subHead1"><b>List of Books</b></p>
+        <hr>
+        <p style="font-size:30px;" class="text-center" id="subHead2"><b>filter by name or authorname or by subject</b></p>
+        <hr>
+
+        <table id="myTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>TITLE</th>
+                    <th>AUTHOR</th>
+                    <th>SUBJECT</th>
+                    <th>PUBLISH DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>A Better India</td>
+                <td>Narayana Murthy</td>
+                <td>Scentific</td>
+                <td>21-12-2000</td>
+                </tr>
+                <tr>
+                    <td>A Passage to India</td>
+                    <td>E.M. Foster</td>
+                    <td>anime</td>
+                    <td>15-06-2000</td>
+                </tr>
+                <tr>
+                    <td>John</td>
+                    <td>INDIA</td>
+                    <td>Romantic</td>
+                    <td>12-12-2009</td>
+                </tr>
+                <tr>
+                    <td>A Revenue Stamp</td>
+                    <td>Amrita Pritam</td>
+                    <td>Scientific</td>
+                    <td>04-04-2004</td>
+                </tr>
+                <tr>
+                    <td>Death of a City</td>
+                    <td>Amrita Pritam</td>
+                    <td>Horror</td>
+                    <td>15-05-2013</td>
+                </tr>
+                <tr>
+                    <td>Pinjar</td>
+                    <td>Amrita Pritam</td>
+                    <td>Anime</td>
+                    <td>15-09-2012</td>
+                </tr>
+                <tr>
+                    <td>A Suitable Boy</td>
+                    <td>Vikram Seth</td>
+                    <td>scientific</td>
+                    <td>14-08-2016</td>
+                </tr>
+                <tr>
+                    <td>A Tale of Two Cities</td>
+                    <td>Charles Darwin</td>
+                    <td>horror</td>
+                    <td>28-09-2001</td>
+                </tr>
+                <tr>
+                    <td>David Copperfield</td>
+                    <td>Charles Darwin</td>
+                    <td>anime</td>
+                    <td>13-03-2000</td>
+                </tr>
+                <tr>
+                    <td>Oliver Twist</td>
+                    <td>Charles Darwin</td>
+                    <td>romance</td>
+                    <td>18-12-2011</td>
+                </tr>
+                <tr>
+                    <td>Origin of Species</td>
+                    <td>Charles Darwin</td>
+                    <td>fiction</td>
+                    <td>03-12-1997</td>
+                </tr>
+                <tr>
+                    <td>A Week with Gandhi</td>
+                    <td>Louis Fisher</td>
+                    <td>fiction</td>
+                    <td>08-12-1989</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').dataTable();
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
