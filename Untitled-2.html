@@ -9,18 +9,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Online Library</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link href="https://unpkg.com/multiple-select@1.5.2/dist/themes/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+
     <script src="https://kit.fontawesome.com/5587893eae.js" crossorigin="anonymous"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
-    </style>
-    <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
+
+
     <link rel="stylesheet" href="style.css">
+
+    <script>
+        $(document).ready(function() {
+
+
+            $("input").focus(function() {
+                $(this).css("opacity", 1)
+            })
+            $("input").blur(function() {
+                $(this).css("opacity", .2)
+            })
+
+            $("select").focus(function() {
+                $(this).css("opacity", 1)
+            })
+            $("select").blur(function() {
+                $(this).css("opacity", .2)
+            })
+
+
+            $(".close").click(function() {
+                $(this).parents(".tab").hide(500)
+            })
+
+
+
+
+        })
+
+
+
+        var current_page = 1;
+        var records_per_page = 10;
+
+
+
+        function prevPage() {
+            var l = document.getElementById("listingTable").rows.length;
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
+
+        function nextPage() {
+            var l = document.getElementById("listingTable").rows.length;
+
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page) {
+            var l = document.getElementById("listingTable").rows.length;
+            var btn_next = document.getElementById("btn_next");
+            var btn_prev = document.getElementById("btn_prev");
+            var listing_table = document.getElementById("listingTable");
+            var page_span = document.getElementById("page");
+
+            console.log(page);
+
+
+            if (page < 1) page = 1;
+            if (page > numPages()) page = numPages();
+
+            [...listing_table.getElementsByTagName("tr")].forEach((tr) => {
+                tr.style.display = "none"; // reset all to not display
+            });
+            listing_table.rows[0].style.display = ""; // display the title row
+
+            for (
+                var i = (page - 1) * records_per_page + 1; i < page * records_per_page + 1; i++
+            ) {
+                if (listing_table.rows[i]) {
+                    listing_table.rows[i].style.display = "";
+                } else {
+                    continue;
+                }
+            }
+
+            page_span.innerHTML = page + "/" + numPages();
+
+            if (page == 1) {
+                btn_prev.style.visibility = "hidden";
+            } else {
+                btn_prev.style.visibility = "visible";
+            }
+
+            if (page == numPages()) {
+                btn_next.style.visibility = "hidden";
+            } else {
+                btn_next.style.visibility = "visible";
+            }
+        }
+
+        function numPages() {
+            var l = document.getElementById("listingTable").rows.length;
+            return Math.ceil((l - 1) / records_per_page);
+
+        }
+
+        window.onload = function() {
+            changePage(current_page);
+            var l = document.getElementById("tablets").rows.length;
+            document.getElementById('counter').value = l;
+        };
+
+        function mySearch() {
+            var type = document.getElementById("type");
+            var search = document.getElementById("search").value;
+            selectElement = document.querySelector('#type');
+            output = selectElement.value;
+
+            var seli = 0;
+            if (output == 'name')
+                seli = 0;
+            else if (output == 'author')
+                seli = 1;
+            else if (output == 'publisher')
+                seli = 2;
+            else
+                seli = 4;
+            var li = document.getElementById("tablets");
+            for (var i = 0; i < li.rows.length; i++) {
+                if (li.rows[i].cells[seli].innerHTML.includes(search)) {
+                    li.rows[i].style.display = '';
+                } else
+                    li.rows[i].style.display = 'none';
+            }
+
+        }
+    </script>
 </head>
 
 <body>
@@ -61,7 +202,7 @@
 
 
 
-    <div class="container pt-4 mt-5 my-3">
+    <div class="containe pt-4 mt-5 my-3">
         <h1 class="text-center display-5 font-weight-bold welcome-text">Welcome To <i class="fa fa-globe fa-45"></i>nline Library</h1>
         <hr>
 
@@ -69,181 +210,221 @@
         <hr>
         <p style="font-size:30px;" class="text-center" id="subHead2"><b>Search books by Name or Authorname or by Genre</b></p>
         <hr>
-
-        <table id="myTable" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>TITLE</th>
-                    <th>AUTHOR</th>
-                    <th>GENRE</th>
-                    <th>PUBLISH DATE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <td>A Better India</td>
-                <td>Narayana Murthy</td>
-                <td>Scentific</td>
-                <td>21-12-2000</td>
-                </tr>
-                <tr>
-                    <td>A Passage to India</td>
-                    <td>E.M. Foster</td>
-                    <td>anime</td>
-                    <td>15-06-2000</td>
-                </tr>
-                <tr>
-                    <td>John</td>
-                    <td>INDIA</td>
-                    <td>Romantic</td>
-                    <td>12-12-2009</td>
-                </tr>
-                <tr>
-                    <td>A Revenue Stamp</td>
-                    <td>Amrita Pritam</td>
-                    <td>Scientific</td>
-                    <td>04-04-2004</td>
-                </tr>
-                <tr>
-                    <td>Death of a City</td>
-                    <td>Amrita Pritam</td>
-                    <td>Horror</td>
-                    <td>15-05-2013</td>
-                </tr>
-                <tr>
-                    <td>Pinjar</td>
-                    <td>Amrita Pritam</td>
-                    <td>Anime</td>
-                    <td>15-09-2012</td>
-                </tr>
-                <tr>
-                    <td>A Suitable Boy</td>
-                    <td>Vikram Seth</td>
-                    <td>scientific</td>
-                    <td>14-08-2016</td>
-                </tr>
-                <tr>
-                    <td>A Tale of Two Cities</td>
-                    <td>Charles Darwin</td>
-                    <td>horror</td>
-                    <td>28-09-2001</td>
-                </tr>
-                <tr>
-                    <td>David Copperfield</td>
-                    <td>Charles Darwin</td>
-                    <td>anime</td>
-                    <td>13-03-2000</td>
-                </tr>
-                <tr>
-                    <td>Oliver Twist</td>
-                    <td>Charles Darwin</td>
-                    <td>romance</td>
-                    <td>18-12-2011</td>
-                </tr>
-                <tr>
-                    <td>Origin of Species</td>
-                    <td>Charles Darwin</td>
-                    <td>fiction</td>
-                    <td>03-12-1997</td>
-                </tr>
-                <tr>
-                    <td>A Week with Gandhi</td>
-                    <td>Louis Fisher</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>A Doll's House</td>
-                    <td>Henrik Ibsen</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>A Sentimental Education</td>
-                    <td>Gustave Flaubert</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Absalom, Absalom</td>
-                    <td>William Faulkner</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>The Adventures of Huckleberry Finn</td>
-                    <td>Mark Twain,</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>The Aeneid</td>
-                    <td>Virgil,</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Anna Karenina</td>
-                    <td>Leo Tolstoy</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Beloved </td>
-                    <td>Toni Morrison</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Berlin Alexanderplatz </td>
-                    <td>Alfred Doblin</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>The Book of Disquiet</td>
-                    <td>Fernando Pessoa,n</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Gypsy Ballads</td>
-                    <td> Federico Garcia Lorcan</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>The Red and the Black</td>
-                    <td> Stendhal</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>TRemembrance of Things Past</td>
-                    <td> Marcel Proust</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Season of Migration to the North </td>
-                    <td> Tayeb Salih</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-                <tr>
-                    <td>Selected Stories </td>
-                    <td> Anton P Chekhov</td>
-                    <td>fiction</td>
-                    <td>08-12-1989</td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#myTable').dataTable();
-        });
-    </script>
+    <section id="one-page">
+        <div class="container">
+
+
+            <div class="row mt-4">
+
+                <div class="col-lg-5" id="insertion_section">
+                    <form class="form-group justify-content-center">
+
+
+                        <h3 style="color:white;font-family:goblin-one">Search Books</h3>
+                        <div class="row" id="two-section">
+                            <div class="col-6">
+                                <label for="type" class="text-light">Type</label>
+                                <select name="type" id="type">
+                                    <option value="name">Title</option>
+                                    <option value="author">Author</option>
+                                    <option value="publisher">Publisher</option>
+                                    <option value="year">Year</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="search" class="text-light">Search</label>
+                                <input type="text" class="form-control" id="search" onkeyup="mySearch()">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <!-- Book List -->
+                <div class="col-lg-7" id="book_list">
+                    <table class="table table-borderless table-striped mt-3 " id="listingTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Publisher</th>
+                                <th scope="col">Year</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablets">
+                            <tr class="tab">
+                                <th scope="row">The Hunger Games</th>
+                                <td>Suzanne Collins</td>
+                                <td>Alfa</td>
+                                <td>2001</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Harry Potter</th>
+                                <td>J.K. Rowling</td>
+                                <td>Beta</td>
+
+                                <td>2002</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">To Kill a Mockingbird</th>
+                                <td>Harper Lee </td>
+                                <td>Omega</td>
+
+                                <td>2003</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Pride and Prejudice</th>
+                                <td>Jane Austen</td>
+                                <td>Sky</td>
+
+                                <td>2004</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Twilight</th>
+                                <td>Stephenie Meyer</td>
+                                <td>Sun</td>
+
+                                <td>2005</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">The Book Thief</th>
+                                <td>Markus Zusak</td>
+                                <td>Child</td>
+
+                                <td>2006</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Narnia</th>
+                                <td>C.S. Lewis</td>
+                                <td>Alfa</td>
+
+                                <td>2007</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Animal Farm</th>
+                                <td>George Orwell</td>
+                                <td>Dog</td>
+
+                                <td>2008</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Les Misérables</th>
+                                <td>Victor Hugo</td>
+                                <td>Dog</td>
+
+                                <td>2009</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">The Alchemist</th>
+                                <td>Paulo Coelho</td>
+                                <td>Omega</td>
+
+                                <td>2010</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">The Help</th>
+                                <td>Kathryn Stockett</td>
+                                <td>Clock</td>
+
+                                <td>2011</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Charlotte's Web</th>
+                                <td>E.B. White</td>
+                                <td>Book</td>
+
+                                <td>2012</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="tab">
+                                <th scope="row">Dracula</th>
+                                <td>Bram Stoker</td>
+                                <td>Beta</td>
+
+                                <td>2013</td>
+                                <td>
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button onclick="prevPage()" style="background-color:red;width:10rem" id="btn_prev">Prev</button>
+                    <button onclick="nextPage()" style="background-color:red;width:10rem" id="btn_next">Next</button>
+                    <label style="color:white;margin-left:60px">COUNT</label>
+                    <input type="text" value="" id="counter">
+                    <br />
+                    <span style="color:white">Page:</span><span id="page" style="color:white"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
 
 
